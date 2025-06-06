@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="C:/Users/kalya/AppData/Local/Temp/ef2dd043-8805-44f9-bd95-f9e1615ad42e_faviconio-logo.zip.faviconio-logo.zip/logo.svg" sizes="any">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Online Grocery Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font as per guidelines */
+            margin: 0; /* Reset default margin */
+            background-color: #f3f4f6; /* Light gray background */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content {
+            flex-grow: 1; /* Allow main content to expand */
+            padding: 20px;
+            max-width: 1200px; /* Limit content width */
+            margin: 0 auto; /* Center content */
+            width: 100%; /* Full width within max-width */
+        }
+        /* --- Header Styles --- */
+        header {
+            background-color: #f8f8f8;
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            gap: 10px; /* Space between header elements */
+        }
+        header h1 {
+            margin: 0;
+            color: #333;
+            font-size: 1.8rem; /* Adjust font size for responsiveness */
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0; /* Reset margin */
+            display: flex; /* Use flex for navigation items */
+            gap: 20px; /* Space between nav items */
+            flex-wrap: wrap;
+        }
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-weight: bold;
+            padding: 5px 0; /* Add padding for better click area */
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #008CBA;
+        }
+        #search-container {
+            display: flex;
+            align-items: center;
+            flex-grow: 1; /* Allow search to take available space */
+            max-width: 300px; /* Limit search input width */
+            position: relative; /* Added for positioning the icon */
+        }
+        #search-input {
+            padding: 8px;
+            padding-right: 35px; /* Added space for the icon */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            flex-grow: 1;
+        }
+        /* NEW: Styles for the search icon */
+        #search-icon {
+            position: absolute;
+            right: 10px; /* Position from the right of the container */
+            color: #888;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        #search-icon:hover {
+            color: #008CBA;
+        }
+        /* Removed #search-button styles as it's no longer a button */
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-image {
+            max-width: 100%;
+            height: 120px; /* Fixed height for consistency */
+            object-fit: contain; /* Ensure image fits without distortion */
+            margin: 0 auto 10px auto; /* Center image and add bottom margin */
+            display: block; /* Remove extra space below image */
+        }
+        .add-to-cart-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #45a049;
+        }
+        /* Styles for the dedicated cart page */
+        #cart-page {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        #cart-items {
+            list-style: none;
+            padding: 0;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Align items vertically */
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        /* NEW: Styles for cart item image and details */
+        .cart-item-image {
+            width: 50px; /* Adjust as needed */
+            height: 50px; /* Adjust as needed */
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+        .cart-item-details {
+            display: flex;
+            align-items: center;
+            flex-grow: 1; /* Allows details to take up space */
+        }
+        /* END NEW */
+        .remove-item-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .remove-item-btn:hover {
+            background-color: #d32f2f;
+        }
+        #total {
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: right;
+            font-size: 1.1rem;
+        }
+        /* Renamed from #checkout-btn to #buy-now-btn */
+        #buy-now-btn {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 8px 15px; /* Smaller padding */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px; /* Smaller font size */
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%; /* Full width button */
+            transition: background-color 0.3s ease;
+        }
+        #buy-now-btn:hover {
+            background-color: #007B9E;
+        }
+        input[type="number"] {
+            width: 60px; /* Slightly wider for quantity */
+            padding: 5px;
+            margin-left: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            text-align: center;
+        }
+        /* --- Footer Styles --- */
+        footer {
+            text-align: center;
+            margin-top: auto; /* Push footer to the bottom */
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-top: 1px solid #eee;
+            color: #777;
+            font-size: 0.9em;
+        }
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- Payment Section Styles (from prototype, merged with existing) --- */
+        #payment-section {
+            /* This div now acts as the main container for the payment methods */
+            /* It will inherit the max-w-4xl, w-full, bg-white, p-8, rounded-xl, shadow-2xl from the JS-added classes */
+            /* The hidden-payment class will control its visibility */
+        }
+        .hidden-payment {
+            display: none !important;
+        }
+        .payment-card {
+            @apply bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200; /* Added border */
+        }
+        .payment-card-header {
+            @apply text-xl font-semibold text-gray-800 mb-4 flex items-center;
+        }
+        .payment-card-body {
+            @apply space-y-4;
+        }
+        .input-field {
+            @apply w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+        }
+        .pay-button {
+            @apply w-full py-3 px-4 rounded-md text-white font-semibold transition-colors duration-300;
+        }
+        .pay-button-primary {
+            @apply bg-blue-600 hover:bg-blue-700;
+        }
+        .pay-button-success {
+            @apply bg-green-600 hover:bg-green-700;
+        }
+        .pay-button-cod {
+            @apply bg-purple-600 hover:bg-purple-700;
+        }
+        .message-box {
+            @apply mt-4 p-3 rounded-md text-sm text-center;
+        }
+        .message-success {
+            @apply bg-green-100 text-green-700 border border-green-300;
+        }
+        .message-error {
+            @apply bg-red-100 text-red-700 border border-red-300;
+        }
+        .message-info {
+            @apply bg-blue-100 text-blue-700 border border-blue-300;
+        }
+        /* Icon styling */
+        .icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+            color: #333; /* Darker icon color */
+        }
+        /* Styles for radio buttons and their labels */
+        .form-radio {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            display: inline-block;
+            position: relative;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            border: 2px solid #9ca3af; /* Gray border */
+            outline: none;
+            cursor: pointer;
+            vertical-align: middle;
+            margin-right: 8px;
+            transition: all 0.2s ease-in-out;
+        }
+        .form-radio:checked {
+            border-color: #2563eb; /* Blue border when checked */
+            background-color: #2563eb; /* Blue background when checked */
+        }
+        .form-radio:checked::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            background-color: white; /* White dot */
+        }
+        .payment-details-section {
+            margin-top: 20px; /* Space between radio buttons and details */
+        }
+        /* Updated #place-order-btn styles */
+        #place-order-btn {
+            background-color: #FFD700; /* Yellow color */
+            color: #333; /* Dark text for contrast */
+            padding: 15px 30px; /* Make it bigger */
+            font-size: 1.5rem; /* Larger font size */
+            border-radius: 25px; /* More rounded, like a Google search input */
+            margin-top: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+            font-weight: bold; /* Make text bold */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for background color */
+        }
+        #place-order-btn:hover {
+            background-color: #FFC107; /* Slightly darker yellow on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+        }
+
+        /* --- Modal Styles --- */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* NEW STYLES FOR CARD-BASED FORMS */
+        .modal-content { /* Existing modal-content, adjusted for new forms */
+            background-color: #ffffff;
+            padding: 40px; /* Increased padding */
+            border-radius: 12px; /* More rounded */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+            width: 90%;
+            max-width: 450px; /* Adjusted max-width */
+            box-sizing: border-box;
+            border: 1px solid #e5e7eb; /* Subtle border */
+            position: relative; /* Keep relative for close button positioning */
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Replaced .auth-form input styles with .card-input */
+        .card-input { /* NEW */
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .card-input:focus { /* NEW */
+            outline: none;
+            border-color: #6366f1; /* indigo-500 */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+        /* Replaced .auth-form button styles with .card-button */
+        .card-button { /* NEW */
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-button-primary { /* NEW */
+            background-color: #4f46e5; /* indigo-600 */
+        }
+        .card-button-primary:hover { /* NEW */
+            background-color: #4338ca; /* indigo-700 */
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+        }
+        .card-button-success { /* NEW */
+            background-color: #10b981; /* emerald-600 */
+        }
+        .card-button-success:hover { /* NEW */
+            background-color: #059669; /* emerald-700 */
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+        .card-button-social-google { /* NEW */
+            background-color: #db4437; /* Google red */
+        }
+        .card-button-social-google:hover { /* NEW */
+            background-color: #c23321;
+            box-shadow: 0 2px 8px rgba(219, 68, 55, 0.3);
+        }
+        .card-button-social-facebook { /* NEW */
+            background-color: #3b5998; /* Facebook blue */
+        }
+        .card-button-social-facebook:hover { /* NEW */
+            background-color: #2d4373;
+            box-shadow: 0 2px 8px rgba(59, 89, 152, 0.3);
+        }
+        .auth-message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .auth-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .auth-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Styles for cart icon in header */
+        #cart-icon-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+        #cart-icon-container:hover {
+            background-color: #e0e0e0;
+        }
+        #cart-icon {
+            font-size: 1.8rem; /* Larger icon */
+            color: #333;
+            margin-right: 5px;
+        }
+        #cart-item-count {
+            background-color: #f44336; /* Red badge */
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            position: absolute;
+            top: 0px; /* Adjust as needed */
+            right: 0px; /* Adjust as needed */
+            line-height: 1; /* Remove extra space above/below text */
+            min-width: 20px; /* Ensure circular shape for single digit */
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" id="home-link">Home</a></li>
+                <li><a href="#">Groceries</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+               
+                </ul>
+        </nav>
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search for items...">
+            <i id="search-icon" class="fas fa-search"></i> <!-- Search icon added here -->
+        </div>
+        <div class="ml-auto flex items-center">
+            <span id="welcome-message" class="text-gray-700 mr-2"></span>
+            <button id="account-btn" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md transition-colors duration-300 mr-2">Login</button>
+            <button id="logout-btn" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition-colors duration-300 hidden">Logout</button>
+        </div>
+        <div id="cart-icon-container">
+                        <span id="cart-icon">🛒</span> <span id="cart-item-count" class="hidden">0</span>
+        </div>
+    </header>
+
+    <div class="main-content" id="app-content"> 
+        <div class="product-list">
+            <div class="product-card" data-name="Rice" data-image="https://media.istockphoto.com/id/153737841/photo/rice.jpg?s=612x612&w=0&k=20&c=lfO7iLT0UsDDzra0uBOsN1rvr2d5OEtrG2uwbts33_c=">
+                <img src="https://media.istockphoto.com/id/153737841/photo/rice.jpg?s=612x612&w=0&k=20&c=lfO7iLT0UsDDzra0uBOsN1rvr2d5OEtrG2uwbts33_c=" alt="Rice" class="product-image">
+                <h3>Rice</h3>
+                <p>Price: ₹ 50/kg</p>
+                <button class="add-to-cart-btn" data-name="Rice" data-price="50" data-image="https://media.istockphoto.com/id/153737841/photo/rice.jpg?s=612x612&w=0&k=20&c=lfO7iLT0UsDDzra0uBOsN1rvr2d5OEtrG2uwbts33_c=">Add to Cart</button>
+            </div>
+            <div class="product-card" data-name="Wheat Flour" data-image="https://www.dial4trade.com/uploaded_files/helpimgs/top-12-wheat-flour-brands-in-india-2025-a-comprehensive-review-beee633.png">
+                <img src="https://www.dial4trade.com/uploaded_files/helpimgs/top-12-wheat-flour-brands-in-india-2025-a-comprehensive-review-beee633.png" alt="Wheat Flour" class="product-image">
+                <h3>Wheat Flour</h3>
+                <p>Price: ₹ 40/kg</p>
+                <button class="add-to-cart-btn" data-name="Wheat Flour" data-price="40" data-image="https://www.dial4trade.com/uploaded_files/helpimgs/top-12-wheat-flour-brands-in-india-2025-a-comprehensive-review-beee633.png">Add to Cart</button>
+            </div>
+            <div class="product-card" data-name="Sugar" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX-rlMMEcvX_3UPd0vgeg7KVrBu8NMLJ3Inw&s">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX-rlMMEcvX_3UPd0vgeg7KVrBu8NMLJ3Inw&s" alt="Sugar" class="product-image">
+                <h3>Sugar</h3>
+                <p>Price: ₹ 45/kg</p>
+                <button class="add-to-cart-btn" data-name="Sugar" data-price="45" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX-rlMMEcvX_3UPd0vgeg7KVrBu8NMLJ3Inw&s">Add to Cart</button>
+            </div>
+            <div class="product-card" data-name="Milk" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKRc1vsNojeMRzLpjSF-_g3ihYlGBwVgpNqw&s">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKRc1vsNojeMRzLpjSF-_g3ihYlGBwVgpNqw&s" alt="Milk" class="product-image">
+                <h3>Milk</h3>
+                <p>Price: ₹ 55/liter</p>
+                <button class="add-to-cart-btn" data-name="Milk" data-price="55" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKRc1vsNojeMRzLpjSF-_g3ihYlGBwVgpNqw&s">Add to Cart</button>
+            </div>
+            <div class="product-card" data-name="Eggs (Dozen)" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO-QRQl8_UA0CL9_xqx_ORKe3z4e2nYTFNA&s">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO-QRQl8_UA0CL9_xqx_ORKe3z4e2nYTFNA&s" alt="Eggs" class="product-image">
+                <h3>Eggs (Dozen)</h3>
+                <p>Price: ₹ 80</p>
+                <button class="add-to-cart-btn" data-name="Eggs (Dozen)" data-price="80" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO-QRQl8_UA0CL9_xqx_ORKe3z4e2nYTFNA&s">Add to Cart</button>
+            </div>
+            <div class="product-card" data-name="Potatoes" data-image="https://m.media-amazon.com/images/I/41QKCkQ2A5L._AC_UF1000,1000_QL80_.jpg">
+                <img src="https://m.media-amazon.com/images/I/41QKCkQ2A5L._AC_UF1000,1000_QL80_.jpg" alt="Potatoes" class="product-image">
+                <h3>Potatoes</h3>
+                <p>Price: ₹ 30/kg</p>
+                <button class="add-to-cart-btn" data-name="Potatoes" data-price="30" data-image="https://m.media-amazon.com/images/I/41QKCkQ2A5L._AC_UF1000,1000_QL80_.jpg">Add to Cart</button>
+            </div>
+            <div class="product-card" data-name="Onions" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_c4mzTsqYoLWHNziM4mHQEEp6-qCek6H7bQ&s">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_c4mzTsqYoLWHNziM4mHQEEp6-qCek6H7bQ&s" alt="Onions" class="product-image">
+                <h3>Onions</h3>
+                <p>Price: ₹ 60/kg</p>
+                <button class="add-to-cart-btn" data-name="Onions" data-price="60" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_c4mzTsqYoLWHNziM4mHQEEp6-qCek6H7bQ&s">Add to Cart</button>
+            </div>
+            <div class="product-card" data-name="Tomatoes" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUkP7iUoJR0VsOWibzQQEwN4KGt6uTkfncHg&s">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUkP7iUoJR0VsOWibzQQEwN4KGt6uTkfncHg&s" alt="Tomatoes" class="product-image">
+                <h3>Tomatoes</h3>
+                <p>Price: ₹ 40/kg</p>
+                <button class="add-to-cart-btn" data-name="Tomatoes" data-price="40" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUkP7iUoJR0VsOWibzQQEwN4KGt6uTkfncHg&s">Add to Cart</button>
+            </div>
+        </div>
+
+        <div id="cart-page" class="hidden">
+            <h2>Your Shopping Cart</h2>
+            <ul id="cart-items">
+                </ul>
+            <div id="total">Total: ₹ 0</div>
+            <button id="buy-now-btn">Buy Now</button> </div>
+
+        <div id="payment-section" class="max-w-4xl w-full bg-white p-8 rounded-xl shadow-2xl hidden-payment">
+            <h1 class="text-4xl font-bold text-center text-gray-900 mb-8">Choose Your Payment Method</h1>
+
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Select Payment Method</h2>
+                <div class="flex flex-col space-y-3">
+                    <label class="inline-flex items-center text-lg text-gray-700 cursor-pointer">
+                        <input type="radio" name="payment-method" value="paytm" class="form-radio h-5 w-5 text-blue-600" checked>
+                        <span class="ml-2">Paytm</span>
+                    </label>
+                    <label class="inline-flex items-center text-lg text-gray-700 cursor-pointer">
+                        <input type="radio" name="payment-method" value="phonepe" class="form-radio h-5 w-5 text-blue-600">
+                        <span class="ml-2">PhonePe</span>
+                    </label>
+                    <label class="inline-flex items-center text-lg text-gray-700 cursor-pointer">
+                        <input type="radio" name="payment-method" value="upi" class="form-radio h-5 w-5 text-green-600">
+                        <span class="ml-2">UPI</span>
+                    </label>
+                    <label class="inline-flex items-center text-lg text-gray-700 cursor-pointer">
+                        <input type="radio" name="payment-method" value="cod" class="form-radio h-5 w-5 text-purple-600">
+                        <span class="ml-2">Cash on Delivery</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="paytm-details-section" class="payment-details-section">
+                <div class="payment-card">
+                    <h2 class="payment-card-header">
+                        <span class="icon">📱</span> Paytm
+                    </h2>
+                    <div class="payment-card-body">
+                        <p class="text-gray-600 mb-4">Scan the QR code or enter your registered Paytm mobile number.</p>
+                        <input type="text" id="paytm-number" placeholder="Enter Paytm Mobile Number" class="input-field">
+                        <div id="paytm-message" class="message-box hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="phonepe-details-section" class="payment-details-section hidden">
+                <div class="payment-card">
+                    <h2 class="payment-card-header">
+                        <span class="icon">📞</span> PhonePe
+                    </h2>
+                    <div class="payment-card-body">
+                        <p class="text-gray-600 mb-4">Scan the QR code or enter your registered PhonePe mobile number.</p>
+                        <input type="text" id="phonepe-number" placeholder="Enter PhonePe Mobile Number" class="input-field">
+                        <div id="phonepe-message" class="message-box hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="upi-details-section" class="payment-details-section hidden">
+                <div class="payment-card">
+                    <h2 class="payment-card-header">
+                        <span class="icon">🏦</span> UPI
+                    </h2>
+                    <div class="payment-card-body">
+                        <p class="text-gray-600 mb-4">Enter your UPI ID to make a payment.</p>
+                        <input type="text" id="upi-id" placeholder="yourname@bankupi" class="input-field">
+                        <div id="upi-message" class="message-box hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cod-details-section" class="payment-details-section hidden">
+                <div class="payment-card">
+                    <h2 class="payment-card-header">
+                        <span class="icon">💵</span> Cash on Delivery (COD)
+                    </h2>
+                    <div class="payment-card-body">
+                        <p class="text-gray-600 mb-4">Pay with cash when your order is delivered to your doorstep.</p>
+                        <div id="cod-message" class="message-box hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="place-order-btn" class="pay-button pay-button-primary mt-6">Place Order</button>
+
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 FreshBasket. All rights reserved.</p>
+        <p>Located in Jammalamadugu, Andhra Pradesh, India.</p>
+    </footer>
+
+    <div id="account-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button" data-modal="account-modal">&times;</span>
+            
+            <div id="login-form">
+                <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-8">Welcome Back!</h2>
+                <form class="space-y-6">
+                    <div>
+                        <label for="login-credential" class="sr-only">Email Address or Phone Number</label>
+                        <input type="text" id="login-credential" class="card-input" placeholder="Email Address or Phone Number" required>
+                    </div>
+                    <div>
+                        <label for="login-password" class="sr-only">Password</label>
+                        <input type="password" id="login-password" class="card-input" placeholder="Password" required>
+                    </div>
+                    <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center">
+                            <input id="remember-me-login" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                            <label for="remember-me-login" class="ml-2 block text-gray-700">Remember me</label>
+                        </div>
+                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-700">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="card-button card-button-primary">Sign In</button>
+                </form>
+                <div class="relative flex py-5 items-center">
+                    <div class="flex-grow border-t border-gray-300"></div>
+                    <span class="flex-shrink mx-4 text-gray-500">Or continue with</span>
+                    <div class="flex-grow border-t border-gray-300"></div>
+                </div>
+                <div class="space-y-3">
+                    <button class="card-button card-button-social-google">
+                        <i class="fab fa-google mr-3"></i> Sign in with Google
+                    </button>
+                    <button class="card-button card-button-social-facebook">
+                        <i class="fab fa-facebook-f mr-3"></i> Sign in with Facebook
+                    </button>
+                </div>
+                <p class="mt-8 text-center text-base text-gray-700">
+                    Don't have an account? <a href="#" id="show-register-link" class="font-medium text-indigo-600 hover:text-indigo-700">Create an Account</a>
+                </p>
+            </div>
+
+            <div id="register-form" class="hidden">
+                <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-8">Join Us Today!</h2>
+                <form class="space-y-6">
+                    <div>
+                        <label for="card-reg-username" class="sr-only">Username</label>
+                        <input type="text" id="card-reg-username" class="card-input" placeholder="Choose a Username" required>
+                    </div>
+                    <div>
+                        <label for="card-reg-credential" class="sr-only">Email Address or Phone Number</label>
+                        <input type="text" id="card-reg-credential" class="card-input" placeholder="Email Address or Phone Number" required>
+                    </div>
+                    <div>
+                        <label for="card-reg-password" class="sr-only">Password</label>
+                        <input type="password" id="card-reg-password" class="card-input" placeholder="Password" required>
+                    </div>
+                    <div>
+                        <label for="card-reg-confirm-password" class="sr-only">Confirm Password</label>
+                        <input type="password" id="card-reg-confirm-password" class="card-input" placeholder="Confirm Password" required>
+                    </div>
+                    <button type="submit" class="card-button card-button-success">Create Account</button>
+                </form>
+                <div class="relative flex py-5 items-center">
+                    <div class="flex-grow border-t border-gray-300"></div>
+                    <span class="flex-shrink mx-4 text-gray-500">Or register with</span>
+                    <div class="flex-grow border-t border-gray-300"></div>
+                </div>
+                <div class="space-y-3">
+                    <button class="card-button card-button-social-google">
+                        <i class="fab fa-google mr-3"></i> Register with Google
+                    </button>
+                    <button class="card-button card-button-social-facebook">
+                        <i class="fab fa-facebook-f mr-3"></i> Register with Facebook
+                    </button>
+                </div>
+                <p class="mt-8 text-center text-base text-gray-700">
+                    Already have an account? <a href="#" id="show-login-link" class="font-medium text-emerald-600 hover:text-emerald-700">Log In</a>
+                </p>
+            </div>
+            </div>
+    </div>
+
+    <script>
+        // Initialize cart array (moved to top for scope)
+        let cart = [];
+
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+        const cartItemsList = document.getElementById('cart-items');
+        const totalElement = document.getElementById('total');
+        const buyNowButton = document.getElementById('buy-now-btn');
+        const searchInput = document.getElementById('search-input');
+        // const searchButton = document.getElementById('search-button'); // Removed
+        const searchIcon = document.getElementById('search-icon'); // NEW: Reference to the search icon
+        const productCards = document.querySelectorAll('.product-card');
+
+        // Payment section elements
+        const paymentSection = document.getElementById('payment-section');
+        const paymentMethodRadios = document.querySelectorAll('input[name="payment-method"]');
+        const paymentDetailSections = document.querySelectorAll('.payment-details-section');
+        const placeOrderBtn = document.getElementById('place-order-btn');
+
+        // Authentication elements
+        const accountBtn = document.getElementById('account-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const welcomeMessage = document.getElementById('welcome-message');
+
+        const accountModal = document.getElementById('account-modal');
+        const closeButtons = document.querySelectorAll('.close-button');
+
+        // NEW: References to the login and registration form containers within the modal
+        const loginFormContainer = document.getElementById('login-form');
+        const registerFormContainer = document.getElementById('register-form');
+
+        // References to elements within the NEW login form
+        const loginCredentialInput = document.getElementById('login-credential');
+        const loginPasswordInput = document.getElementById('login-password');
+        const showRegisterLink = document.getElementById('show-register-link');
+        const loginForm = loginFormContainer.querySelector('form'); // Get the actual form element
+
+        // References to elements within the NEW registration form
+        const registerUsernameInput = document.getElementById('card-reg-username');
+        const registerPhoneEmailInput = document.getElementById('card-reg-credential');
+        const registerPasswordInput = document.getElementById('card-reg-password');
+        const registerConfirmPasswordInput = document.getElementById('card-reg-confirm-password');
+        const showLoginLink = document.getElementById('show-login-link');
+        const registerForm = registerFormContainer.querySelector('form'); // Get the actual form element
+
+        // Message elements (still using old IDs for consistency, consider updating if needed)
+        // These will now be created dynamically or have a dedicated div within each form
+        // For now, we'll create temporary message divs if they don't exist in the HTML structure
+        let loginMessage = document.getElementById('login-message'); // This ID might not exist in the new structure
+        let registerMessage = document.getElementById('register-message'); // This ID might not exist in the new structure
+
+        // Create message divs if they don't exist
+        if (!loginMessage) {
+            loginMessage = document.createElement('div');
+            loginMessage.id = 'login-message';
+            loginMessage.classList.add('hidden', 'auth-message');
+            loginForm.insertBefore(loginMessage, loginForm.firstChild); // Insert at the beginning of the form
+        }
+        if (!registerMessage) {
+            registerMessage = document.createElement('div');
+            registerMessage.id = 'register-message';
+            registerMessage.classList.add('hidden', 'auth-message');
+            registerForm.insertBefore(registerMessage, registerForm.firstChild); // Insert at the beginning of the form
+        }
+
+
+        // Cart icon and count in header
+        const cartIconContainer = document.getElementById('cart-icon-container');
+        const cartItemCount = document.getElementById('cart-item-count');
+        const productListSection = document.querySelector('.product-list');
+        const cartPageSection = document.getElementById('cart-page');
+        const homeLink = document.getElementById('home-link');
+        const appContent = document.getElementById('app-content');
+
+        // --- Helper functions ---
+
+        // Function to display messages (for auth modals)
+        function showMessage(element, message, type) {
+            if (element) {
+                element.textContent = message;
+                element.className = `auth-message ${type}`;
+                element.classList.remove('hidden');
+                setTimeout(() => {
+                    element.classList.add('hidden');
+                    element.textContent = '';
+                }, 3000);
+            } else {
+                console.warn("Message element not found:", element);
+            }
+        }
+
+        // Function to display messages (for payment section)
+        function showPaymentMessage(elementId, message, type) {
+            const messageBox = document.getElementById(elementId);
+            if (messageBox) {
+                messageBox.textContent = message;
+                messageBox.className = `message-box ${type === 'success' ? 'message-success' : type === 'error' ? 'message-error' : 'message-info'}`;
+                messageBox.classList.remove('hidden');
+                setTimeout(() => {
+                    messageBox.classList.add('hidden');
+                    messageBox.textContent = '';
+                }, 3000);
+            }
+        }
+
+        // --- Page Navigation Functions ---
+        function showProductList() {
+            productListSection.classList.remove('hidden');
+            cartPageSection.classList.add('hidden');
+            paymentSection.classList.add('hidden-payment');
+            appContent.classList.remove('hidden'); // Ensure appContent is visible
+        }
+
+        function showCartPage() {
+            productListSection.classList.add('hidden');
+            cartPageSection.classList.remove('hidden');
+            paymentSection.classList.add('hidden-payment');
+            appContent.classList.remove('hidden'); // Ensure appContent is visible
+            updateCartDisplay();
+        }
+
+        function showPaymentSection() {
+            productListSection.classList.add('hidden');
+            cartPageSection.classList.add('hidden');
+            paymentSection.classList.remove('hidden-payment');
+            appContent.classList.remove('hidden'); // Ensure appContent is visible
+        }
+
+        // NEW: Functions to toggle login/registration forms within the modal
+        function showLoginForm() {
+            loginFormContainer.classList.remove('hidden');
+            registerFormContainer.classList.add('hidden');
+            loginMessage.classList.add('hidden'); // Clear previous messages
+            registerMessage.classList.add('hidden');
+            loginCredentialInput.value = '';
+            loginPasswordInput.value = '';
+        }
+
+        function showRegisterForm() {
+            registerFormContainer.classList.remove('hidden');
+            loginFormContainer.classList.add('hidden');
+            loginMessage.classList.add('hidden'); // Clear previous messages
+            registerMessage.classList.add('hidden');
+            registerUsernameInput.value = '';
+            registerPhoneEmailInput.value = '';
+            registerPasswordInput.value = '';
+            registerConfirmPasswordInput.value = '';
+        }
+
+
+        // --- Authentication Logic ---
+
+        // Checks if a string is a valid 10-digit phone number
+        function isValidPhoneNumber(input) {
+            return /^\d{10}$/.test(input);
+        }
+
+        // Checks if a string is a valid email address
+        function isValidEmail(input) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
+        }
+
+        // Modified checkAuthentication to *not* hide content initially
+        function checkAuthentication() {
+            const loggedInUser = sessionStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                welcomeMessage.textContent = `Welcome, ${loggedInUser}!`;
+                accountBtn.classList.add('hidden');
+                logoutBtn.classList.remove('hidden');
+                // The app content remains visible, no need to call showProductList here
+            } else {
+                welcomeMessage.textContent = '';
+                accountBtn.classList.remove('hidden');
+                logoutBtn.classList.add('hidden');
+                // Crucially, we do NOT hide appContent or show the modal here.
+                // The modal will only show when a login-required action is attempted.
+                accountModal.classList.add('hidden'); // Ensure modal is hidden on initial load if not logged in
+            }
+            // Always ensure the product list is visible on initial load or after authentication check
+            showProductList();
+        }
+
+        // Handle user registration
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = registerUsernameInput.value.trim();
+            const credential = registerPhoneEmailInput.value.trim();
+            const password = registerPasswordInput.value.trim();
+            const confirmPassword = registerConfirmPasswordInput.value.trim();
+
+            if (username.length < 3) {
+                showMessage(registerMessage, 'Username must be at least 3 characters.', 'error');
+                return;
+            }
+
+            if (!isValidPhoneNumber(credential) && !isValidEmail(credential)) {
+                showMessage(registerMessage, 'Please enter a valid 10-digit phone number or email address.', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage(registerMessage, 'Password must be at least 6 characters.', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage(registerMessage, 'Passwords do not match.', 'error');
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('users')) || {};
+
+            const credentialExists = Object.keys(users).some(key => key === credential);
+
+            if (credentialExists) {
+                showMessage(registerMessage, 'Phone number or email already registered. Please login or use a different one.', 'error');
+            } else {
+                users[credential] = {
+                    username: username,
+                    password: password,
+                    credential: credential
+                };
+                localStorage.setItem('users', JSON.stringify(users));
+                showMessage(registerMessage, 'Registration successful! You can now log in.', 'success');
+                registerUsernameInput.value = '';
+                registerPhoneEmailInput.value = '';
+                registerPasswordInput.value = '';
+                registerConfirmPasswordInput.value = '';
+                setTimeout(() => {
+                    showLoginForm(); // Switch to login form after successful registration
+                    loginCredentialInput.value = credential; // Pre-fill login with the just registered credential
+                }, 1500);
+            }
+        });
+
+        // Handle user login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const credential = loginCredentialInput.value.trim();
+            const password = loginPasswordInput.value.trim();
+
+            let users = JSON.parse(localStorage.getItem('users')) || {};
+            const storedUser = users[credential];
+
+            if (storedUser && storedUser.password === password) {
+                sessionStorage.setItem('loggedInUser', storedUser.username);
+                showMessage(loginMessage, 'Login successful!', 'success');
+                loginCredentialInput.value = '';
+                loginPasswordInput.value = '';
+                setTimeout(() => {
+                    accountModal.classList.add('hidden');
+                    checkAuthentication(); // Update header and content visibility
+                }, 1000);
+            } else {
+                showMessage(loginMessage, 'Invalid phone number/email or password.', 'error');
+            }
+        });
+
+        // Handle logout
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('loggedInUser');
+            checkAuthentication();
+            showMessage(welcomeMessage, 'You have been logged out.', 'info');
+        });
+
+        // --- Modal Display Logic ---
+
+        // Only show the account modal when the "Login" button is clicked
+        accountBtn.addEventListener('click', () => {
+            accountModal.classList.remove('hidden');
+            showLoginForm(); // Always show login form when account button is clicked
+        });
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const modalId = event.target.dataset.modal;
+                document.getElementById(modalId).classList.add('hidden');
+                // No need to call checkAuthentication here, as closing the modal
+                // doesn't change authentication status.
+            });
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === accountModal) {
+                accountModal.classList.add('hidden');
+                // No need to call checkAuthentication here.
+            }
+        });
+
+        // Event listeners for the toggle links within the modal
+        showRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showRegisterForm();
+        });
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginForm();
+        });
+
+
+        // --- Existing E-commerce Logic (modified for authentication and cart placement) ---
+
+        // Function to update cart display and total
+        function updateCartDisplay() {
+            cartItemsList.innerHTML = '';
+            let total = 0;
+            let itemCount = 0;
+            cart.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `
+                    <div class="cart-item-details">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <span>${item.name} (₹${item.price} x <input type="number" value="${item.quantity}" min="1" data-index="${index}" class="item-quantity">)</span>
+                    </div>
+                    <span>₹${item.price * item.quantity}
+                        <button class="remove-item-btn" data-index="${index}">Remove</button>
+                    </span>
+                `;
+                cartItemsList.appendChild(li);
+                total += item.price * item.quantity;
+                itemCount += item.quantity;
+            });
+            totalElement.textContent = `Total: ₹ ${total}`;
+
+            if (itemCount > 0) {
+                cartItemCount.textContent = itemCount;
+                cartItemCount.classList.remove('hidden');
+            } else {
+                cartItemCount.classList.add('hidden');
+            }
+
+            document.querySelectorAll('.item-quantity').forEach(input => {
+                input.addEventListener('change', updateQuantity);
+            });
+            document.querySelectorAll('.remove-item-btn').forEach(button => {
+                button.addEventListener('click', removeItem);
+            });
+        }
+
+        // Function to add item to cart
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                if (!sessionStorage.getItem('loggedInUser')) {
+                    accountModal.classList.remove('hidden');
+                    showLoginForm(); // Show login form if not logged in
+                    return;
+                }
+                const name = event.target.dataset.name;
+                const price = parseFloat(event.target.dataset.price);
+                const image = event.target.dataset.image; // Get the image URL
+
+                const existingItem = cart.find(item => item.name === name);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ name, price, quantity: 1, image: image }); // Store the image
+                }
+                updateCartDisplay();
+            });
+        });
+
+        // Function to update quantity
+        function updateQuantity(event) {
+            const index = parseInt(event.target.dataset.index);
+            const newQuantity = parseInt(event.target.value);
+            if (newQuantity > 0) {
+                cart[index].quantity = newQuantity;
+            } else {
+                cart.splice(index, 1);
+            }
+            updateCartDisplay();
+        }
+
+        // Function to remove item
+        function removeItem(event) {
+            const index = parseInt(event.target.dataset.index);
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        // Search functionality - now triggered by the icon click
+        searchIcon.addEventListener('click', () => { // Changed from searchButton to searchIcon
+            if (!sessionStorage.getItem('loggedInUser')) {
+                accountModal.classList.remove('hidden');
+                showLoginForm(); // Show login form if not logged in
+                return;
+            }
+            const searchTerm = searchInput.value.toLowerCase();
+            productCards.forEach(card => {
+                const productName = card.dataset.name.toLowerCase();
+                if (productName.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Optional: Also trigger search on Enter key press in the input field
+        searchInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                searchIcon.click(); // Simulate a click on the search icon
+            }
+        });
+
+        // --- Payment Section Logic ---
+
+        // Function to show/hide payment details based on selected radio button
+        function showSelectedPaymentDetails() {
+            const selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
+
+            paymentDetailSections.forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            document.getElementById(`${selectedMethod}-details-section`).classList.remove('hidden');
+        }
+
+        // Event listener for radio button changes
+        paymentMethodRadios.forEach(radio => {
+            radio.addEventListener('change', showSelectedPaymentDetails);
+        });
+
+        // Event listener for the main "Place Order" button
+        placeOrderBtn.addEventListener('click', () => {
+            const selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
+
+            placeOrderBtn.style.backgroundColor = '#008CBA';
+
+            if (selectedMethod === 'paytm') {
+                const paytmNumber = document.getElementById('paytm-number').value.trim();
+                if (paytmNumber.length === 10 && /^\d+$/.test(paytmNumber)) {
+                    showPaymentMessage('paytm-message', 'Sending payment request to Paytm...', 'info');
+                    setTimeout(() => {
+                        showPaymentMessage('paytm-message', 'Paytm payment successful! Your order is confirmed.', 'success');
+                        placeOrderBtn.style.backgroundColor = '#4CAF50';
+                        document.getElementById('paytm-number').value = '';
+                    }, 2000);
+                } else {
+                    showPaymentMessage('paytm-message', 'Please enter a valid 10-digit Paytm mobile number.', 'error');
+                    placeOrderBtn.style.backgroundColor = '#FFD700';
+                }
+            } else if (selectedMethod === 'phonepe') {
+                const phonepeNumber = document.getElementById('phonepe-number').value.trim();
+                if (phonepeNumber.length === 10 && /^\d+$/.test(phonepeNumber)) {
+                    showPaymentMessage('phonepe-message', 'Sending payment request to PhonePe...', 'info');
+                    setTimeout(() => {
+                        showPaymentMessage('phonepe-message', 'PhonePe payment successful! Your order is confirmed.', 'success');
+                        placeOrderBtn.style.backgroundColor = '#4CAF50';
+                        document.getElementById('phonepe-number').value = '';
+                    }, 2000);
+                } else {
+                    showPaymentMessage('phonepe-message', 'Please enter a valid 10-digit PhonePe mobile number.', 'error');
+                    placeOrderBtn.style.backgroundColor = '#FFD700';
+                }
+            } else if (selectedMethod === 'upi') {
+                const upiId = document.getElementById('upi-id').value.trim();
+                const upiRegex = /^[a-zA-Z0-9.\-]+@[a-zA-Z0-9.\-]+$/;
+                if (upiId && upiRegex.test(upiId)) {
+                    showPaymentMessage('upi-message', 'Initiating UPI payment request...', 'info');
+                    setTimeout(() => {
+                        showPaymentMessage('upi-message', 'UPI payment request sent! Please approve on your UPI app. Your order is confirmed.', 'success');
+                        placeOrderBtn.style.backgroundColor = '#4CAF50';
+                        document.getElementById('upi-id').value = '';
+                    }, 2000);
+                } else {
+                    showPaymentMessage('upi-message', 'Please enter a valid UPI ID (e.g., yourname@bankupi).', 'error');
+                    placeOrderBtn.style.backgroundColor = '#FFD700';
+                }
+            } else if (selectedMethod === 'cod') {
+                showPaymentMessage('cod-message', 'Placing your Cash on Delivery order...', 'info');
+                setTimeout(() => {
+                    showPaymentMessage('cod-message', 'Your Cash on Delivery order has been placed successfully!', 'success');
+                    placeOrderBtn.style.backgroundColor = '#4CAF50';
+                }, 1500);
+            }
+        });
+
+        // --- Cart Icon Click to Show Cart Page ---
+        cartIconContainer.addEventListener('click', () => {
+            if (!sessionStorage.getItem('loggedInUser')) {
+                 accountModal.classList.remove('hidden');
+                 showLoginForm();
+                 return;
+            }
+            showCartPage();
+        });
+
+        // --- Buy Now Button Logic (on the dedicated cart page) ---
+        buyNowButton.addEventListener('click', () => {
+            if (!sessionStorage.getItem('loggedInUser')) {
+                 accountModal.classList.remove('hidden');
+                 showLoginForm();
+                 return;
+            }
+            if (cart.length > 0) {
+                showPaymentSection();
+                showSelectedPaymentDetails();
+                placeOrderBtn.style.backgroundColor = '#FFD700';
+            } else {
+                showMessage(cartPageSection, 'Your cart is empty. Please add items before proceeding to checkout.', 'info');
+            }
+        });
+
+        // --- Home Link Click ---
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            // No need to check authentication here, as the home page (product list) is always visible
+            showProductList();
+        });
+
+
+        // Initial calls on page load
+        updateCartDisplay();
+        checkAuthentication(); // Check login status on page load and control header elements and content visibility
+    </script>
+</body>
+</html>
