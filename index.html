@@ -544,18 +544,189 @@
             flex-wrap: wrap;
             justify-content: center;
         }
+
+        /* Styles for Hamburger Menu */
+        .hamburger-menu {
+            display: none; /* Hidden by default on larger screens */
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #333;
+            margin-right: 15px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-wrap: nowrap;
+                justify-content: space-between;
+            }
+            header nav {
+                display: none; /* Hide regular nav on small screens */
+                flex-direction: column;
+                width: 100%;
+                background-color: #f8f8f8;
+                position: absolute;
+                top: 70px; /* Adjust based on header height */
+                left: 0;
+                border-top: 1px solid #eee;
+                padding-bottom: 10px;
+            }
+            header nav.active {
+                display: flex; /* Show nav when active */
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .hamburger-menu {
+                display: block; /* Show hamburger on small screens */
+            }
+            #search-container {
+                max-width: 100%; /* Allow search to take full width */
+                order: 3; /* Move search below nav on small screens */
+                margin-top: 10px;
+            }
+            .ml-auto {
+                margin-left: 0;
+            }
+        }
+        /* Home Section Styles */
+        #home-section {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(to right, #e0f2f7, #bbdefb); /* Light blue gradient */
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        #home-section h2 {
+            font-size: 3.5rem;
+            color: #1a202c;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        #home-section p {
+            font-size: 1.25rem;
+            color: #4a5568;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            line-height: 1.8;
+        }
+        #home-section .shop-now-btn {
+            background-color: #008CBA;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        #home-section .shop-now-btn:hover {
+            background-color: #007B9E;
+            transform: translateY(-2px);
+        }
+
+        /* About Us Section Styles */
+        #about-us-section {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        #about-us-section h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        #about-us-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        #about-us-section .about-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Contact Section Styles */
+        #contact-section {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        #contact-section h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        #contact-section .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        #contact-section .contact-info div {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        #contact-section .contact-info .icon {
+            font-size: 1.8rem;
+            margin-right: 15px;
+            color: #008CBA;
+        }
+        #contact-section .contact-form input,
+        #contact-section .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        #contact-section .contact-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+        #contact-section .contact-form button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
     <header>
-        <nav>
+        <div class="hamburger-menu" id="hamburger-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav id="main-nav">
             <ul>
-                <li><a href="#" id="home-link">Home</a></li>
-                <li><a href="#">Groceries</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Contact</a></li>
-               
-                </ul>
+                <li><a href="#" id="home-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" id="groceries-link"><i class="fas fa-shopping-basket"></i> Groceries</a></li>
+                <li><a href="#" id="about-us-link"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="#" id="contact-link"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
         </nav>
         <div id="search-container">
             <input type="text" id="search-input" placeholder="Search for items...">
@@ -571,7 +742,13 @@
     </header>
 
     <div class="main-content" id="app-content"> 
-        <div class="product-list">
+        <div id="home-section">
+            <h2>Welcome to FreshBasket!</h2>
+            <p>Your one-stop online shop for fresh and high-quality groceries, delivered right to your doorstep in Jammalamadugu and surrounding areas. We are committed to providing you with the best selection and freshest produce to make your daily life easier.</p>
+            <a href="#" id="home-shop-now-btn" class="shop-now-btn">Shop Now</a>
+        </div>
+
+        <div class="product-list" id="groceries-section">
             <div class="product-card" data-name="Rice" data-price="50" data-image="https://media.istockphoto.com/id/153737841/photo/rice.jpg?s=612x612&w=0&k=20&c=lfO7iLT0UsDDzra0uBOsN1rvr2d5OEtrG2uwbts33_c=">
                 <img src="https://media.istockphoto.com/id/153737841/photo/rice.jpg?s=612x612&w=0&k=20&c=lfO7iLT0UsDDzra0uBOsN1rvr2d5OEtrG2uwbts33_c=" alt="Rice" class="product-image">
                 <h3>Rice</h3>
@@ -718,6 +895,35 @@
             <button id="place-order-btn" class="pay-button pay-button-primary mt-6">Place Order</button>
 
         </div>
+
+        <div id="about-us-section" class="hidden">
+            <h2>Our Story at FreshBasket</h2>
+            <p>FreshBasket started with a simple vision: to bring the freshest, highest-quality groceries directly to the homes of Jammalamadugu residents. We understand the challenges of busy schedules and the importance of healthy, wholesome food. That's why we've built a seamless online platform that connects you to local farmers and trusted suppliers.</p>
+            <p>Our commitment extends beyond just convenience. We prioritize freshness, ensuring that every product you receive is hand-picked and delivered with care. We believe in sustainable practices and supporting our local community, making FreshBasket more than just a grocery store – it's a partner in your healthy living journey.</p>
+            <img src="https://via.placeholder.com/600x300?text=Our+Team" alt="Our Team" class="about-image">
+            <p>Thank you for choosing FreshBasket. We look forward to serving you!</p>
+        </div>
+
+        <div id="contact-section" class="hidden">
+            <h2>Get in Touch with Us</h2>
+            <p>We'd love to hear from you! Whether you have a question about our products, need assistance with an order, or just want to provide feedback, our team is ready to help.</p>
+            
+            <div class="contact-info">
+                <div><i class="fas fa-map-marker-alt icon"></i> Jammalamadugu, Andhra Pradesh, India</div>
+                <div><i class="fas fa-phone icon"></i> +91 98765 43210</div>
+                <div><i class="fas fa-envelope icon"></i> support@freshbasket.com</div>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Send Us a Message</h3>
+            <form class="contact-form">
+                <input type="text" id="contact-name" placeholder="Your Name" required>
+                <input type="email" id="contact-email" placeholder="Your Email" required>
+                <input type="text" id="contact-subject" placeholder="Subject">
+                <textarea id="contact-message" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+
     </div>
     <footer>
         <p>&copy; 2025 FreshBasket. All rights reserved.</p>
@@ -869,7 +1075,6 @@
         const cartItemCount = document.getElementById('cart-item-count');
         const productListSection = document.querySelector('.product-list');
         const cartPageSection = document.getElementById('cart-page');
-        const homeLink = document.getElementById('home-link');
         const appContent = document.getElementById('app-content');
 
         // NEW: Product Detail Page Elements
@@ -879,6 +1084,23 @@
         const detailProductPrice = document.getElementById('detail-product-price');
         const detailAddToCartBtn = document.getElementById('detail-add-to-cart-btn');
         const detailBuyNowBtn = document.getElementById('detail-buy-now-btn');
+
+        // NEW: Navigation Elements
+        const homeLink = document.getElementById('home-link');
+        const groceriesLink = document.getElementById('groceries-link');
+        const aboutUsLink = document.getElementById('about-us-link');
+        const contactLink = document.getElementById('contact-link');
+        const homeShopNowBtn = document.getElementById('home-shop-now-btn');
+
+        // NEW: Page sections
+        const homeSection = document.getElementById('home-section');
+        const groceriesSection = document.getElementById('groceries-section'); // This is your existing product list
+        const aboutUsSection = document.getElementById('about-us-section');
+        const contactSection = document.getElementById('contact-section');
+
+        // NEW: Hamburger menu elements
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mainNav = document.getElementById('main-nav');
 
 
         // --- Helper functions ---
@@ -912,39 +1134,57 @@
             }
         }
 
-        // --- Page Navigation Functions ---
-        function showProductList() {
-            productListSection.classList.remove('hidden');
+        // Function to hide all content sections
+        function hideAllSections() {
+            homeSection.classList.add('hidden');
+            groceriesSection.classList.add('hidden');
+            aboutUsSection.classList.add('hidden');
+            contactSection.classList.add('hidden');
             cartPageSection.classList.add('hidden');
             paymentSection.classList.add('hidden-payment');
-            productDetailPage.classList.add('hidden'); // Hide detail page
-            appContent.classList.remove('hidden'); // Ensure appContent is visible
+            productDetailPage.classList.add('hidden');
+            mainNav.classList.remove('active'); // Hide nav on mobile when switching sections
+        }
+
+        // --- Page Navigation Functions ---
+        function showHomeSection() {
+            hideAllSections();
+            homeSection.classList.remove('hidden');
+        }
+
+        function showGroceriesSection() {
+            hideAllSections();
+            groceriesSection.classList.remove('hidden');
+            // Ensure product cards are visible after navigating back to groceries
+            productCards.forEach(card => card.style.display = 'block');
+            searchInput.value = ''; // Clear search input
+        }
+
+        function showAboutUsSection() {
+            hideAllSections();
+            aboutUsSection.classList.remove('hidden');
+        }
+
+        function showContactSection() {
+            hideAllSections();
+            contactSection.classList.remove('hidden');
         }
 
         function showCartPage() {
-            productListSection.classList.add('hidden');
+            hideAllSections();
             cartPageSection.classList.remove('hidden');
-            paymentSection.classList.add('hidden-payment');
-            productDetailPage.classList.add('hidden'); // Hide detail page
-            appContent.classList.remove('hidden'); // Ensure appContent is visible
             updateCartDisplay();
         }
 
         function showPaymentSection() {
-            productListSection.classList.add('hidden');
-            cartPageSection.classList.add('hidden');
+            hideAllSections();
             paymentSection.classList.remove('hidden-payment');
-            productDetailPage.classList.add('hidden'); // Hide detail page
-            appContent.classList.remove('hidden'); // Ensure appContent is visible
         }
 
         // NEW: Function to show product detail page
         function showProductDetailPage(product) {
-            productListSection.classList.add('hidden');
-            cartPageSection.classList.add('hidden');
-            paymentSection.classList.add('hidden-payment');
+            hideAllSections();
             productDetailPage.classList.remove('hidden'); // Show detail page
-            appContent.classList.remove('hidden');
 
             detailProductImage.src = product.image;
             detailProductImage.alt = product.name;
@@ -1007,7 +1247,7 @@
                 logoutBtn.classList.add('hidden');
                 accountModal.classList.add('hidden');
             }
-            showProductList(); // Always ensure the product list is visible on initial load or after authentication check
+            showHomeSection(); // Always show the home section on initial load or after authentication check
         }
 
         // Handle user registration
@@ -1174,10 +1414,11 @@
                 return;
             }
             const existingItem = cart.find(item => item.name === name);
-            if (!existingItem) { // Only add if the item is NOT already in the cart
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
                 cart.push({ name, price, quantity: 1, image: image });
             }
-            // If the item exists, we do nothing, ensuring it's only in the cart once with quantity 1 (unless changed by user via quantity input)
             updateCartDisplay();
         }
 
@@ -1198,7 +1439,7 @@
             addItemToCart(name, price, image);
             // Optionally, show a confirmation message or redirect to cart
             alert(`${name} added to cart!`);
-            showProductList(); // Go back to product list after adding
+            showGroceriesSection(); // Go back to groceries list after adding
         });
 
         // NEW: Event listener for "Buy Now" button on the product detail page
@@ -1257,6 +1498,7 @@
                     card.style.display = 'none';
                 }
             });
+            showGroceriesSection(); // Ensure groceries section is visible when searching
         });
 
         // Optional: Also trigger search on Enter key press in the input field
@@ -1365,11 +1607,32 @@
             }
         });
 
-        // --- Home Link Click ---
+        // --- Navigation Link Event Listeners ---
         homeLink.addEventListener('click', (e) => {
             e.preventDefault();
-            showProductList();
+            showHomeSection();
         });
+
+        homeShopNowBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showGroceriesSection();
+        });
+
+        groceriesLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showGroceriesSection();
+        });
+
+        aboutUsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAboutUsSection();
+        });
+
+        contactLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContactSection();
+        });
+
 
         // NEW: Event listener for clicking on product cards
         productCards.forEach(card => {
@@ -1399,6 +1662,10 @@
             });
         });
 
+        // NEW: Hamburger menu toggle
+        hamburgerMenu.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+        });
 
         // Initial calls on page load
         updateCartDisplay();
