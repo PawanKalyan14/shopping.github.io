@@ -101,6 +101,7 @@
             background-color: #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             transition: transform 0.2s ease;
+            cursor: pointer; /* Make cards clickable */
         }
         .product-card:hover {
             transform: translateY(-5px);
@@ -482,6 +483,67 @@
             min-width: 20px; /* Ensure circular shape for single digit */
             text-align: center;
         }
+
+        /* New styles for product detail page */
+        #product-detail-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        #detail-product-image {
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        #detail-product-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        #detail-product-price {
+            font-size: 1.8rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        #detail-add-to-cart-btn, #detail-buy-now-btn {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 10px;
+            width: 100%;
+            max-width: 250px;
+        }
+        #detail-add-to-cart-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        #detail-add-to-cart-btn:hover {
+            background-color: #45a049;
+        }
+        #detail-buy-now-btn {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+        }
+        #detail-buy-now-btn:hover {
+            background-color: #007B9E;
+        }
+        .detail-buttons-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -497,8 +559,7 @@
         </nav>
         <div id="search-container">
             <input type="text" id="search-input" placeholder="Search for items...">
-            <i id="search-icon" class="fas fa-search"></i> <!-- Search icon added here -->
-        </div>
+            <i id="search-icon" class="fas fa-search"></i> </div>
         <div class="ml-auto flex items-center">
             <span id="welcome-message" class="text-gray-700 mr-2"></span>
             <button id="account-btn" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md transition-colors duration-300 mr-2">Login</button>
@@ -511,53 +572,63 @@
 
     <div class="main-content" id="app-content"> 
         <div class="product-list">
-            <div class="product-card" data-name="Rice" data-image="https://media.istockphoto.com/id/153737841/photo/rice.jpg?s=612x612&w=0&k=20&c=lfO7iLT0UsDDzra0uBOsN1rvr2d5OEtrG2uwbts33_c=">
+            <div class="product-card" data-name="Rice" data-price="50" data-image="https://media.istockphoto.com/id/153737841/photo/rice.jpg?s=612x612&w=0&k=20&c=lfO7iLT0UsDDzra0uBOsN1rvr2d5OEtrG2uwbts33_c=">
                 <img src="https://media.istockphoto.com/id/153737841/photo/rice.jpg?s=612x612&w=0&k=20&c=lfO7iLT0UsDDzra0uBOsN1rvr2d5OEtrG2uwbts33_c=" alt="Rice" class="product-image">
                 <h3>Rice</h3>
                 <p>Price: ₹ 50/kg</p>
                 <button class="add-to-cart-btn" data-name="Rice" data-price="50" data-image="https://media.istockphoto.com/id/153737841/photo/rice.jpg?s=612x612&w=0&k=20&c=lfO7iLT0UsDDzra0uBOsN1rvr2d5OEtrG2uwbts33_c=">Add to Cart</button>
             </div>
-            <div class="product-card" data-name="Wheat Flour" data-image="https://www.dial4trade.com/uploaded_files/helpimgs/top-12-wheat-flour-brands-in-india-2025-a-comprehensive-review-beee633.png">
+            <div class="product-card" data-name="Wheat Flour" data-price="40" data-image="https://www.dial4trade.com/uploaded_files/helpimgs/top-12-wheat-flour-brands-in-india-2025-a-comprehensive-review-beee633.png">
                 <img src="https://www.dial4trade.com/uploaded_files/helpimgs/top-12-wheat-flour-brands-in-india-2025-a-comprehensive-review-beee633.png" alt="Wheat Flour" class="product-image">
                 <h3>Wheat Flour</h3>
                 <p>Price: ₹ 40/kg</p>
                 <button class="add-to-cart-btn" data-name="Wheat Flour" data-price="40" data-image="https://www.dial4trade.com/uploaded_files/helpimgs/top-12-wheat-flour-brands-in-india-2025-a-comprehensive-review-beee633.png">Add to Cart</button>
             </div>
-            <div class="product-card" data-name="Sugar" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX-rlMMEcvX_3UPd0vgeg7KVrBu8NMLJ3Inw&s">
+            <div class="product-card" data-name="Sugar" data-price="45" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX-rlMMEcvX_3UPd0vgeg7KVrBu8NMLJ3Inw&s">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX-rlMMEcvX_3UPd0vgeg7KVrBu8NMLJ3Inw&s" alt="Sugar" class="product-image">
                 <h3>Sugar</h3>
                 <p>Price: ₹ 45/kg</p>
                 <button class="add-to-cart-btn" data-name="Sugar" data-price="45" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX-rlMMEcvX_3UPd0vgeg7KVrBu8NMLJ3Inw&s">Add to Cart</button>
             </div>
-            <div class="product-card" data-name="Milk" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKRc1vsNojeMRzLpjSF-_g3ihYlGBwVgpNqw&s">
+            <div class="product-card" data-name="Milk" data-price="55" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKRc1vsNojeMRzLpjSF-_g3ihYlGBwVgpNqw&s">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKRc1vsNojeMRzLpjSF-_g3ihYlGBwVgpNqw&s" alt="Milk" class="product-image">
                 <h3>Milk</h3>
                 <p>Price: ₹ 55/liter</p>
                 <button class="add-to-cart-btn" data-name="Milk" data-price="55" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKRc1vsNojeMRzLpjSF-_g3ihYlGBwVgpNqw&s">Add to Cart</button>
             </div>
-            <div class="product-card" data-name="Eggs (Dozen)" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO-QRQl8_UA0CL9_xqx_ORKe3z4e2nYTFNA&s">
+            <div class="product-card" data-name="Eggs (Dozen)" data-price="80" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO-QRQl8_UA0CL9_xqx_ORKe3z4e2nYTFNA&s">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO-QRQl8_UA0CL9_xqx_ORKe3z4e2nYTFNA&s" alt="Eggs" class="product-image">
                 <h3>Eggs (Dozen)</h3>
                 <p>Price: ₹ 80</p>
                 <button class="add-to-cart-btn" data-name="Eggs (Dozen)" data-price="80" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO-QRQl8_UA0CL9_xqx_ORKe3z4e2nYTFNA&s">Add to Cart</button>
             </div>
-            <div class="product-card" data-name="Potatoes" data-image="https://m.media-amazon.com/images/I/41QKCkQ2A5L._AC_UF1000,1000_QL80_.jpg">
+            <div class="product-card" data-name="Potatoes" data-price="30" data-image="https://m.media-amazon.com/images/I/41QKCkQ2A5L._AC_UF1000,1000_QL80_.jpg">
                 <img src="https://m.media-amazon.com/images/I/41QKCkQ2A5L._AC_UF1000,1000_QL80_.jpg" alt="Potatoes" class="product-image">
                 <h3>Potatoes</h3>
                 <p>Price: ₹ 30/kg</p>
                 <button class="add-to-cart-btn" data-name="Potatoes" data-price="30" data-image="https://m.media-amazon.com/images/I/41QKCkQ2A5L._AC_UF1000,1000_QL80_.jpg">Add to Cart</button>
             </div>
-            <div class="product-card" data-name="Onions" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_c4mzTsqYoLWHNziM4mHQEEp6-qCek6H7bQ&s">
+            <div class="product-card" data-name="Onions" data-price="60" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_c4mzTsqYoLWHNziM4mHQEEp6-qCek6H7bQ&s">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_c4mzTsqYoLWHNziM4mHQEEp6-qCek6H7bQ&s" alt="Onions" class="product-image">
                 <h3>Onions</h3>
                 <p>Price: ₹ 60/kg</p>
                 <button class="add-to-cart-btn" data-name="Onions" data-price="60" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_c4mzTsqYoLWHNziM4mHQEEp6-qCek6H7bQ&s">Add to Cart</button>
             </div>
-            <div class="product-card" data-name="Tomatoes" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUkP7iUoJR0VsOWibzQQEwN4KGt6uTkfncHg&s">
+            <div class="product-card" data-name="Tomatoes" data-price="40" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUkP7iUoJR0VsOWibzQQEwN4KGt6uTkfncHg&s">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUkP7iUoJR0VsOWibzQQEwN4KGt6uTkfncHg&s" alt="Tomatoes" class="product-image">
                 <h3>Tomatoes</h3>
                 <p>Price: ₹ 40/kg</p>
                 <button class="add-to-cart-btn" data-name="Tomatoes" data-price="40" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUkP7iUoJR0VsOWibzQQEwN4KGt6uTkfncHg&s">Add to Cart</button>
+            </div>
+        </div>
+
+        <div id="product-detail-page" class="hidden">
+            <img id="detail-product-image" src="" alt="Product Image">
+            <h2 id="detail-product-name"></h2>
+            <p id="detail-product-price"></p>
+            <div class="detail-buttons-container">
+                <button id="detail-add-to-cart-btn" class="add-to-cart-btn">Add to Cart</button>
+                <button id="detail-buy-now-btn" class="buy-now-btn">Buy Now</button>
             </div>
         </div>
 
@@ -745,8 +816,7 @@
         const totalElement = document.getElementById('total');
         const buyNowButton = document.getElementById('buy-now-btn');
         const searchInput = document.getElementById('search-input');
-        // const searchButton = document.getElementById('search-button'); // Removed
-        const searchIcon = document.getElementById('search-icon'); // NEW: Reference to the search icon
+        const searchIcon = document.getElementById('search-icon');
         const productCards = document.querySelectorAll('.product-card');
 
         // Payment section elements
@@ -763,44 +833,36 @@
         const accountModal = document.getElementById('account-modal');
         const closeButtons = document.querySelectorAll('.close-button');
 
-        // NEW: References to the login and registration form containers within the modal
         const loginFormContainer = document.getElementById('login-form');
         const registerFormContainer = document.getElementById('register-form');
 
-        // References to elements within the NEW login form
         const loginCredentialInput = document.getElementById('login-credential');
         const loginPasswordInput = document.getElementById('login-password');
         const showRegisterLink = document.getElementById('show-register-link');
-        const loginForm = loginFormContainer.querySelector('form'); // Get the actual form element
+        const loginForm = loginFormContainer.querySelector('form');
 
-        // References to elements within the NEW registration form
         const registerUsernameInput = document.getElementById('card-reg-username');
         const registerPhoneEmailInput = document.getElementById('card-reg-credential');
         const registerPasswordInput = document.getElementById('card-reg-password');
         const registerConfirmPasswordInput = document.getElementById('card-reg-confirm-password');
         const showLoginLink = document.getElementById('show-login-link');
-        const registerForm = registerFormContainer.querySelector('form'); // Get the actual form element
+        const registerForm = registerFormContainer.querySelector('form');
 
-        // Message elements (still using old IDs for consistency, consider updating if needed)
-        // These will now be created dynamically or have a dedicated div within each form
-        // For now, we'll create temporary message divs if they don't exist in the HTML structure
-        let loginMessage = document.getElementById('login-message'); // This ID might not exist in the new structure
-        let registerMessage = document.getElementById('register-message'); // This ID might not exist in the new structure
+        let loginMessage = document.getElementById('login-message');
+        let registerMessage = document.getElementById('register-message');
 
-        // Create message divs if they don't exist
         if (!loginMessage) {
             loginMessage = document.createElement('div');
             loginMessage.id = 'login-message';
             loginMessage.classList.add('hidden', 'auth-message');
-            loginForm.insertBefore(loginMessage, loginForm.firstChild); // Insert at the beginning of the form
+            loginForm.insertBefore(loginMessage, loginForm.firstChild);
         }
         if (!registerMessage) {
             registerMessage = document.createElement('div');
             registerMessage.id = 'register-message';
             registerMessage.classList.add('hidden', 'auth-message');
-            registerForm.insertBefore(registerMessage, registerForm.firstChild); // Insert at the beginning of the form
+            registerForm.insertBefore(registerMessage, registerForm.firstChild);
         }
-
 
         // Cart icon and count in header
         const cartIconContainer = document.getElementById('cart-icon-container');
@@ -809,6 +871,15 @@
         const cartPageSection = document.getElementById('cart-page');
         const homeLink = document.getElementById('home-link');
         const appContent = document.getElementById('app-content');
+
+        // NEW: Product Detail Page Elements
+        const productDetailPage = document.getElementById('product-detail-page');
+        const detailProductImage = document.getElementById('detail-product-image');
+        const detailProductName = document.getElementById('detail-product-name');
+        const detailProductPrice = document.getElementById('detail-product-price');
+        const detailAddToCartBtn = document.getElementById('detail-add-to-cart-btn');
+        const detailBuyNowBtn = document.getElementById('detail-buy-now-btn');
+
 
         // --- Helper functions ---
 
@@ -846,6 +917,7 @@
             productListSection.classList.remove('hidden');
             cartPageSection.classList.add('hidden');
             paymentSection.classList.add('hidden-payment');
+            productDetailPage.classList.add('hidden'); // Hide detail page
             appContent.classList.remove('hidden'); // Ensure appContent is visible
         }
 
@@ -853,6 +925,7 @@
             productListSection.classList.add('hidden');
             cartPageSection.classList.remove('hidden');
             paymentSection.classList.add('hidden-payment');
+            productDetailPage.classList.add('hidden'); // Hide detail page
             appContent.classList.remove('hidden'); // Ensure appContent is visible
             updateCartDisplay();
         }
@@ -861,7 +934,30 @@
             productListSection.classList.add('hidden');
             cartPageSection.classList.add('hidden');
             paymentSection.classList.remove('hidden-payment');
+            productDetailPage.classList.add('hidden'); // Hide detail page
             appContent.classList.remove('hidden'); // Ensure appContent is visible
+        }
+
+        // NEW: Function to show product detail page
+        function showProductDetailPage(product) {
+            productListSection.classList.add('hidden');
+            cartPageSection.classList.add('hidden');
+            paymentSection.classList.add('hidden-payment');
+            productDetailPage.classList.remove('hidden'); // Show detail page
+            appContent.classList.remove('hidden');
+
+            detailProductImage.src = product.image;
+            detailProductImage.alt = product.name;
+            detailProductName.textContent = product.name;
+            detailProductPrice.textContent = `Price: ₹ ${product.price}/${product.unit || 'kg'}`; // Assuming a unit if available
+
+            // Set data attributes for the "Add to Cart" and "Buy Now" buttons on the detail page
+            detailAddToCartBtn.dataset.name = product.name;
+            detailAddToCartBtn.dataset.price = product.price;
+            detailAddToCartBtn.dataset.image = product.image;
+            detailBuyNowBtn.dataset.name = product.name;
+            detailBuyNowBtn.dataset.price = product.price;
+            detailBuyNowBtn.dataset.image = product.image;
         }
 
         // NEW: Functions to toggle login/registration forms within the modal
@@ -905,17 +1001,13 @@
                 welcomeMessage.textContent = `Welcome, ${loggedInUser}!`;
                 accountBtn.classList.add('hidden');
                 logoutBtn.classList.remove('hidden');
-                // The app content remains visible, no need to call showProductList here
             } else {
                 welcomeMessage.textContent = '';
                 accountBtn.classList.remove('hidden');
                 logoutBtn.classList.add('hidden');
-                // Crucially, we do NOT hide appContent or show the modal here.
-                // The modal will only show when a login-required action is attempted.
-                accountModal.classList.add('hidden'); // Ensure modal is hidden on initial load if not logged in
+                accountModal.classList.add('hidden');
             }
-            // Always ensure the product list is visible on initial load or after authentication check
-            showProductList();
+            showProductList(); // Always ensure the product list is visible on initial load or after authentication check
         }
 
         // Handle user registration
@@ -1013,15 +1105,12 @@
             button.addEventListener('click', (event) => {
                 const modalId = event.target.dataset.modal;
                 document.getElementById(modalId).classList.add('hidden');
-                // No need to call checkAuthentication here, as closing the modal
-                // doesn't change authentication status.
             });
         });
 
         window.addEventListener('click', (event) => {
             if (event.target === accountModal) {
                 accountModal.classList.add('hidden');
-                // No need to call checkAuthentication here.
             }
         });
 
@@ -1078,26 +1167,61 @@
         }
 
         // Function to add item to cart
+        function addItemToCart(name, price, image) {
+            if (!sessionStorage.getItem('loggedInUser')) {
+                accountModal.classList.remove('hidden');
+                showLoginForm();
+                return;
+            }
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1, image: image });
+            }
+            updateCartDisplay();
+        }
+
         addToCartButtons.forEach(button => {
             button.addEventListener('click', (event) => {
-                if (!sessionStorage.getItem('loggedInUser')) {
-                    accountModal.classList.remove('hidden');
-                    showLoginForm(); // Show login form if not logged in
-                    return;
-                }
                 const name = event.target.dataset.name;
                 const price = parseFloat(event.target.dataset.price);
-                const image = event.target.dataset.image; // Get the image URL
-
-                const existingItem = cart.find(item => item.name === name);
-                if (existingItem) {
-                    existingItem.quantity++;
-                } else {
-                    cart.push({ name, price, quantity: 1, image: image }); // Store the image
-                }
-                updateCartDisplay();
+                const image = event.target.dataset.image;
+                addItemToCart(name, price, image);
             });
         });
+
+        // NEW: Event listener for "Add to Cart" button on the product detail page
+        detailAddToCartBtn.addEventListener('click', (event) => {
+            const name = event.target.dataset.name;
+            const price = parseFloat(event.target.dataset.price);
+            const image = event.target.dataset.image;
+            addItemToCart(name, price, image);
+            // Optionally, show a confirmation message or redirect to cart
+            alert(`${name} added to cart!`);
+            showProductList(); // Go back to product list after adding
+        });
+
+        // NEW: Event listener for "Buy Now" button on the product detail page
+        detailBuyNowBtn.addEventListener('click', (event) => {
+            if (!sessionStorage.getItem('loggedInUser')) {
+                accountModal.classList.remove('hidden');
+                showLoginForm();
+                return;
+            }
+
+            const name = event.target.dataset.name;
+            const price = parseFloat(event.target.dataset.price);
+            const image = event.target.dataset.image;
+
+            // Clear the cart and add only the current item
+            cart = [{ name, price, quantity: 1, image }];
+            updateCartDisplay();
+            showPaymentSection();
+            showSelectedPaymentDetails();
+            placeOrderBtn.style.backgroundColor = '#FFD700'; // Reset button color
+        });
+
 
         // Function to update quantity
         function updateQuantity(event) {
@@ -1119,10 +1243,10 @@
         }
 
         // Search functionality - now triggered by the icon click
-        searchIcon.addEventListener('click', () => { // Changed from searchButton to searchIcon
+        searchIcon.addEventListener('click', () => {
             if (!sessionStorage.getItem('loggedInUser')) {
                 accountModal.classList.remove('hidden');
-                showLoginForm(); // Show login form if not logged in
+                showLoginForm();
                 return;
             }
             const searchTerm = searchInput.value.toLowerCase();
@@ -1245,8 +1369,35 @@
         // --- Home Link Click ---
         homeLink.addEventListener('click', (e) => {
             e.preventDefault();
-            // No need to check authentication here, as the home page (product list) is always visible
             showProductList();
+        });
+
+        // NEW: Event listener for clicking on product cards
+        productCards.forEach(card => {
+            card.addEventListener('click', (event) => {
+                // Prevent event bubbling from the "Add to Cart" button within the card
+                if (event.target.classList.contains('add-to-cart-btn')) {
+                    return;
+                }
+                if (!sessionStorage.getItem('loggedInUser')) {
+                    accountModal.classList.remove('hidden');
+                    showLoginForm();
+                    return;
+                }
+                const productName = card.dataset.name;
+                const productPrice = parseFloat(card.dataset.price);
+                const productImage = card.dataset.image;
+
+                // You might want to get a more detailed description if available
+                const productDescription = "A high-quality product for your daily needs."; // Placeholder
+
+                showProductDetailPage({
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    description: productDescription // Pass description if you add it to your product data
+                });
+            });
         });
 
 
