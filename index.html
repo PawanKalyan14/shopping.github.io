@@ -1174,11 +1174,10 @@
                 return;
             }
             const existingItem = cart.find(item => item.name === name);
-            if (existingItem) {
-                existingItem.quantity++;
-            } else {
+            if (!existingItem) { // Only add if the item is NOT already in the cart
                 cart.push({ name, price, quantity: 1, image: image });
             }
+            // If the item exists, we do nothing, ensuring it's only in the cart once with quantity 1 (unless changed by user via quantity input)
             updateCartDisplay();
         }
 
